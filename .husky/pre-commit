@@ -6,7 +6,8 @@ echo " Styling, Testing and Building your Project before committing"
 # Check Prettier
 npm run check-format ||
 (
-    echo 'Prettier Check Failed. Run npm run format, add changes and try commit again';
+    echo 'Prettier Check Failed. Run npm run format, add changes and try commit again'
+    false;
 )
 
 # Check ESLint
@@ -29,4 +30,4 @@ npm run build ||
     false;
 )
 
-echo "Success Commite"
+echo "Success Commit"
