@@ -1,13 +1,31 @@
 import express from 'express'
-import type { Application, Request, Response, NextFunction } from 'express'
+import type { Application } from 'express'
+import { routes } from './routes'
+import { logger } from './utils/logger'
+import bodyParser from 'body-parser'
+import cors from 'cors'
+
+// Connect database
+import './utils/connectDB'
 
 const app: Application = express()
 const port: number = 4000
 
-app.use('/health', (req: Request, res: Response, next: NextFunction) => {
-  res.status(200).send({ status: '200' })
+// Parse body request
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
+
+// Cors access handler
+app.use(cors())
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*')
+  res.setHeader('Access-Control-Allow-Methods', '*')
+  res.setHeader('Access-Control-Allow-Headers', '*')
+  next()
 })
 
+routes(app)
+
 app.listen(port, () => {
-  console.log(`Server is listening on port ${port}`)
+  logger.info(`Server is listening on port ${port}`)
 })
